@@ -1,14 +1,21 @@
 mod core;
 
-use core::directions::{Direction, Mode, check_direction};
+use core::autocorr::c2;
+use core::directions::{Direction, Mode};
 
-use ndarray::Array2;
+use ndarray::{Array3, array};
 
 fn main() {
-    let array = Array2::from_shape_vec((3, 4), (1..=12).map(|x| x as f64).collect()).unwrap();
-    match check_direction(Direction::X, &array, Mode::Periodic) {
-        Ok(dir) => println!("✅ {:?} ok", dir),
-        Err(e) => eprintln!("❌ Ошибка: {e}"),
+    let line = array![1., 1., 1., 0., 1., 1.];
+    let cube = Array3::from_elem((2, 2, 2), 1.0);
+
+    match c2(&line, 1.0, Direction::X, Mode::NonPeriodic, Some(6)) {
+        Ok(values) => println!("1D C2 along X: {values:?}"),
+        Err(error) => eprintln!("C2 calculation failed: {error}"),
     }
-    println!("Array:\n{array}");
+
+    match c2(&cube, 1.0, Direction::XYZ, Mode::NonPeriodic, Some(2)) {
+        Ok(values) => println!("3D C2 along XYZ: {values:?}"),
+        Err(error) => eprintln!("C2 calculation failed: {error}"),
+    }
 }
