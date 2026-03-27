@@ -1,6 +1,6 @@
 mod core;
 
-use core::autocorr::c2;
+use core::directional::c2;
 use core::directions::{Direction, Mode};
 
 use ndarray::{Array3, array};
@@ -82,8 +82,8 @@ fn main() {
 fn run_3d_example(name: &str, sample: &Array3<f64>, configs: &[(Direction, Mode, usize)]) {
     println!("\n{name} (shape {:?}):\n{sample}", sample.dim());
 
-    for &(direction, mode, len) in configs {
-        match c2(sample, 1.0, direction, mode, Some(len)) {
+    for (direction, mode, len) in configs {
+        match c2(sample, 1.0, *direction, mode.clone(), Some(*len)) {
             Ok(values) => println!("  {direction:?} {mode:?}: {values:?}"),
             Err(error) => println!("  {direction:?} {mode:?}: error: {error}"),
         }

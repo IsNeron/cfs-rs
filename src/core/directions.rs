@@ -1,3 +1,7 @@
+use ndarray::ArrayD;
+
+use crate::core::errors::C2Error;
+
 #[allow(dead_code)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Direction {
@@ -17,32 +21,32 @@ pub enum Direction {
     Diagonal,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[allow(dead_code)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Mode {
     Periodic,
     NonPeriodic,
+    Mask(ArrayD<bool>),
 }
 
-pub fn check_direction(direction: Direction, shape: &[usize], mode: Mode) -> Result<(), String> {
+pub fn check_direction(direction: Direction, shape: &[usize], mode: &Mode) -> Result<(), C2Error> {
     let ndim = shape.len();
     if !(1..=3).contains(&ndim) {
-        return Err(format!(
-            "C2 currently supports only 1D, 2D or 3D arrays, got {ndim}D."
-        ));
+        return Err(C2Error::UnsupportedDimension(ndim));
     }
 
     direction_step(direction, ndim)?;
 
     let cubic = shape.iter().all(|&axis| axis == shape[0]);
     let axial = matches!(direction, Direction::X | Direction::Y | Direction::Z);
-    if mode == Mode::Periodic && !axial && !cubic {
-        return Err("Periodic diagonals for non-cubic arrays are not supported".into());
+    if matches!(mode, Mode::Periodic) && !axial && !cubic {
+        return Err(C2Error::PeriodicDiagonalRequiresCubicArray);
     }
 
     Ok(())
 }
 
-pub fn direction_step(direction: Direction, ndim: usize) -> Result<Vec<isize>, String> {
+pub fn direction_step(direction: Direction, ndim: usize) -> Result<Vec<isize>, C2Error> {
     match (ndim, direction) {
         (1, Direction::X) => Ok(vec![1]),
         (2, Direction::X) => Ok(vec![1, 0]),
@@ -62,10 +66,7 @@ pub fn direction_step(direction: Direction, ndim: usize) -> Result<Vec<isize>, S
         (3, Direction::XZY) => Ok(vec![1, -1, 1]),
         (3, Direction::YXZ) => Ok(vec![-1, 1, 1]),
         (3, Direction::ZYX) => Ok(vec![1, 1, -1]),
-        _ => Err(format!(
-            "Direction {:?} is not supported for {ndim}D arrays.",
-            direction
-        )),
+        _ => Err(C2Error::UnsupportedDirection { direction, ndim }),
     }
 }
 
