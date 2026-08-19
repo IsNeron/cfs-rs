@@ -1,0 +1,3 @@
+[submodule "reference/CorrelationFunctions.jl"]
+	path = reference/CorrelationFunctions.jl
+	url = https://github.com/fatimp/CorrelationFunctions.jl.git

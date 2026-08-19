@@ -1,5 +1,5 @@
 [package]
-name = "cfs_rust"
+name = "crf_rs"
 version = "0.1.0"
 edition = "2024"
 
