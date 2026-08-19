@@ -32,28 +32,30 @@ Scientific behavior does.
 
 ## M0 — Reference and prototype audit
 
-* [ ] Pin the exact CorrelationFunctions.jl upstream commit.
-* [ ] Add it under `reference/CorrelationFunctions.jl`.
-* [ ] Record package version and upstream commit.
-* [ ] Inspect the entire Julia `src/`.
-* [ ] Inspect the entire Julia test suite.
-* [ ] Inspect relevant Julia documentation.
-* [ ] Inspect the complete existing Rust implementation.
-* [ ] Map Julia public API to implementation files.
-* [ ] Build a dependency graph of algorithms/primitives.
-* [ ] Compare existing Rust behavior with Julia behavior.
-* [ ] Identify semantic bugs in the existing Rust prototype.
-* [ ] Identify reusable Rust code.
-* [ ] Identify code that should become a naive/reference implementation.
-* [ ] Identify missing Julia test coverage or API/documentation inconsistencies.
-* [ ] Create `docs/reference_audit.md`.
-* [ ] Update this migration plan if the discovered dependency graph requires it.
+* [x] Pin the exact CorrelationFunctions.jl upstream commit.
+* [x] Add it under `reference/CorrelationFunctions.jl`.
+* [x] Record package version and upstream commit.
+* [x] Inspect the entire Julia `src/`.
+* [x] Inspect the entire Julia test suite.
+* [x] Inspect relevant Julia documentation.
+* [x] Inspect the complete existing Rust implementation.
+* [x] Map Julia public API to implementation files.
+* [x] Build a dependency graph of algorithms/primitives.
+* [x] Compare existing Rust behavior with Julia behavior.
+* [x] Identify semantic bugs in the existing Rust prototype.
+* [x] Identify reusable Rust code.
+* [x] Identify code that should become a naive/reference implementation.
+* [x] Identify missing Julia test coverage or API/documentation inconsistencies.
+* [x] Create `docs/reference_audit.md`.
+* [x] Update this migration plan if the discovered dependency graph requires it.
 
 No new correlation-function implementation in this milestone.
 
 ---
 
 ## M1 — Rust project restructuring
+
+**Status: complete.**
 
 Target architecture should approximately separate:
 
@@ -79,6 +81,8 @@ No new scientific functionality.
 ---
 
 ## M2 — Modes and directions
+
+**Status: complete.**
 
 Implement and validate:
 
@@ -331,4 +335,4 @@ GPU results must be compared against CPU Rust and Julia reference results.
 
 ## Current milestone
 
-M0 — Reference and prototype audit.
+M2 — Modes and directions (complete). M3 has not started.

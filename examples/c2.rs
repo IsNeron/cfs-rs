@@ -1,8 +1,4 @@
-mod core;
-
-use core::directional::c2;
-use core::directions::{Direction, Mode};
-
+use crf_rs::{Direction, Mode, c2};
 use ndarray::{Array3, array};
 
 fn main() {
